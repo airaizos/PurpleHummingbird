@@ -7,8 +7,8 @@
 
 import UIKit
 
-public final class PFNetwork {
-    public static let shared = PFNetwork()
+public final class PHNetwork {
+    public static let shared = PHNetwork()
     
     let documentURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
     
