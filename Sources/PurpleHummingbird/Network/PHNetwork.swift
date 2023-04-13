@@ -73,4 +73,11 @@ public final class PHNetwork {
         case url, data, fileExists(String), saving
     }
     
+    public enum HTTPMethods:String {
+        case get = "GET"
+        case post = "POST"
+        case put = "PUT"
+        case patch = "PATCH"
+        case delete = "DELETE"
+    }
 }
