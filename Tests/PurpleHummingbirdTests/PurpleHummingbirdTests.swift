@@ -24,7 +24,9 @@ final class PurpleHummingbirdTests: XCTestCase {
         
         
     }
-    
+    func testFetchImage() async throws {
+        
+    }
     
 }
 
