@@ -24,7 +24,7 @@ let package = Package(
             dependencies: []),
         .testTarget(
             name: "PurpleHummingbirdTests",
-            dependencies: ["PurpleHummingbird"],exclude: ["Resources"],
+            dependencies: ["PurpleHummingbird"],
             resources: [.copy("Resources/categories.json"),
                         .copy("Resources/100.png")])
                         
