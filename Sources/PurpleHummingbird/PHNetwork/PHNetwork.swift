@@ -10,8 +10,8 @@ import UIKit
 
 public final class PHNetwork {
     
+    //MARK: - Para Tests
     var urlProtocol: URLProtocol.Type?
-    
     var session: URLSession {
         if let urlProtocol {
             let configuration = URLSessionConfiguration.ephemeral
@@ -21,16 +21,13 @@ public final class PHNetwork {
             return URLSession.shared
         }
     }
-    
     init(urlProtocol: URLProtocol.Type? = nil) {
         self.urlProtocol = urlProtocol
     }
     
-    
     func fetchJSON<JSON:Codable>(url: URL, type: JSON.Type) async throws -> JSON {
-        do {
-            let (data, response) = try await session.data(from: url)
-            guard let res = response as? HTTPURLResponse else  {  throw PHNetworkError.badResponse }
+         let (data, response) = try await session.data(from: url)
+            guard let res = response as? HTTPURLResponse else  { throw PHNetworkError.noResponse }
             switch res.statusCode == 200 {
             case true:
                 do {
@@ -38,12 +35,8 @@ public final class PHNetwork {
                 } catch let error {
                     throw PHNetworkError.badJson(error)
                 }
-            case false: throw PHNetworkError.loadingFromCoreData
+            case false: throw PHNetworkError.status(res.statusCode)
             }
-            
-        } catch {
-            throw PHNetworkError.badResponse
-        }
     }
     
     func fetchImage(baseURL:URL, path: String) async throws -> UIImage {
@@ -55,7 +48,4 @@ public final class PHNetwork {
             throw PHNetworkError.badImage
         }
     }
-    
-    
-    
 }

@@ -8,8 +8,18 @@
 import Foundation
 
 
-enum PHNetworkError: Error {
-    case badResponse
+enum PHNetworkError: Error,Equatable,Comparable {
+    static func < (lhs: PHNetworkError, rhs: PHNetworkError) -> Bool {
+        lhs.localizedDescription > rhs.localizedDescription
+    }
+    
+    static func == (lhs: PHNetworkError, rhs: PHNetworkError) -> Bool {
+        lhs.localizedDescription == rhs.localizedDescription
+    }
+    
+    case noResponse
+    case badData
+    case status(Int)
     case badJson(Error)
     case badImage
     case savingToCoreData
@@ -20,7 +30,9 @@ enum PHNetworkError: Error {
     
     var message:String {
         switch self {
-        case .badResponse: return "Sin respuesta del servidor"
+        case .noResponse: return "Sin respuesta"
+        case .badData: return "Error de Data"
+        case .status(let status): return "Error de http status \(status)"
         case .badJson(let error): return "JSON error \(error.localizedDescription)"
         case .badImage: return "Imagen no reconocida"
         case .savingToCoreData: return "No se ha podido guardar en CoreData"
@@ -32,8 +44,8 @@ enum PHNetworkError: Error {
     }
     var title:String {
         switch self {
-        case .badResponse: return "Error de Conexión"
-        case .badJson(_): return "Error de Datos"
+        case .status, .noResponse: return "Error de Conexión"
+        case .badData,.badJson(_): return "Error de Datos"
         case .badImage: return "Error de Imagen"
         case .savingToCoreData,.loadingFromCoreData, .savingToDocuments,.loadingFromDocuments : return "Error de Persistencia"
         case .noResults: return "Sin resultados"

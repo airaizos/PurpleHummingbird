@@ -17,59 +17,53 @@ final class URLSessionMock: URLProtocol {
     override class func canonicalRequest(for request: URLRequest) -> URLRequest {
         request
     }
-    
-   
-    
-   
-    
-   // let dataCategories = categories.data(using: .utf8)
-   // let urlCategories = Bundle(for: PurpleHummingbirdTests.self).url(forResource: "categories", withExtension: "json")!
-   // let urlImage = Bundle(for:PurpleHummingbirdTests.self).url(forResource: "image", withExtension: "jpeg")!
+
+    let urlCategories = Bundle.module.url(forResource: "categories", withExtension: "json")!
+    let urlImage = Bundle.module.url(forResource: "100", withExtension: "png")!
     
     override func startLoading() {
         var data: Data?
         
         guard let url = request.url else {
-            client?.urlProtocol(self, didFailWithError: PHNetworkError.badResponse)
+            client?.urlProtocol(self, didFailWithError: PHNetworkError.loadingFromDocuments)
             return }
         
         switch url.lastPathComponent {
             
-            //FIXME: - Archivos json que no se cargan del Bundle
-        case "categories": data = dataCategories //try? Data(contentsOf: urlCategories
-        default: data = dataCategories //try? Data(contentsOf: urlCategories
-            
-            
-        }
-        
-        guard let data else {
-            client?.urlProtocol(self, didFailWithError: PHNetworkError.badResponse )
-            return }
-        
-        client?.urlProtocol(self, didLoad: data)
-        if let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: ["Content/Type":"application/json"]) {
-            
+        case "categories": data = try? Data(contentsOf: urlCategories)
+        case "image": data = try? Data(contentsOf: urlImage)
+        case "error404": let response = HTTPURLResponse(url: urlCategories, statusCode: 404, httpVersion: nil, headerFields: ["Content/Type":"application/json"])!
             client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+            client?.urlProtocolDidFinishLoading(self)
             
+        case "badResponse": data = nil
+            let error = NSError(domain: NSURLErrorDomain, code: NSURLErrorTimedOut, userInfo: nil)
+            self.client?.urlProtocol(self, didFailWithError: error)
+            return
+            
+
+        default: client?.urlProtocol(self, didFailWithError: PHNetworkError.badData)
+            client?.urlProtocolDidFinishLoading(self)
         }
-        client?.urlProtocolDidFinishLoading(self)
+        
+            guard let data else {
+                client?.urlProtocol(self, didFailWithError: PHNetworkError.badData )
+                return }
+            
+            client?.urlProtocol(self, didLoad: data)
+            if let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: ["Content/Type":"application/json"]) {
+                
+                client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+                
+            }
+            client?.urlProtocolDidFinishLoading(self)
+
+  
+        
+       
     }
     
     override func stopLoading() {
         
     }
-    
-    
-    let dataCategories = """
-    [
-       {
-            "id": 1,
-            "name": "Aprendizaje"
-        },
-        {
-            "id": 2,
-            "name": "Bienestar"
-        }
-]
-""".data(using: .utf8)
 }
