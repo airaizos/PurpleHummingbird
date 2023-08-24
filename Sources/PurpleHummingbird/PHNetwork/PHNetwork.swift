@@ -9,6 +9,8 @@ import UIKit
 
 
 public final class PHNetwork {
+    public static let shared = PHNetwork()
+    
     //MARK: - Para Tests
     var urlProtocol: URLProtocol.Type?
     var session: URLSession {
