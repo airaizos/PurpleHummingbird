@@ -17,6 +17,7 @@ enum PHNetworkError: Error,Equatable,Comparable {
         lhs.localizedDescription == rhs.localizedDescription
     }
     
+    case general
     case noResponse
     case badData
     case status(Int)
@@ -26,17 +27,21 @@ enum PHNetworkError: Error,Equatable,Comparable {
     case loadingFromCoreData
     case savingToDocuments
     case loadingFromDocuments
+    case loadingFromBundle
     case noResults
     
     var message:String {
         switch self {
+        case .general: return "Error"
         case .noResponse: return "Sin respuesta"
         case .badData: return "Error de Data"
         case .status(let status): return "Error de http status \(status)"
         case .badJson(let error): return "JSON error \(error.localizedDescription)"
         case .badImage: return "Imagen no reconocida"
-        case .savingToCoreData: return "No se ha podido guardar en CoreData"
+     
         case .loadingFromCoreData: return "No se ha podido obtener la información de CoreData"
+        case .loadingFromBundle: return "No se ha podido cargar desde el Bundle"
+        case .savingToCoreData: return "No se ha podido guardar en CoreData"
         case .savingToDocuments: return "No se ha podido guardar en Documents"
         case .loadingFromDocuments: return "No se ha podido abrir el archivo"
         case .noResults: return "La consulta no proporciona ningún dato"
@@ -44,10 +49,11 @@ enum PHNetworkError: Error,Equatable,Comparable {
     }
     var title:String {
         switch self {
+        case .general: return "Error desconocido"
         case .status, .noResponse: return "Error de Conexión"
         case .badData,.badJson(_): return "Error de Datos"
         case .badImage: return "Error de Imagen"
-        case .savingToCoreData,.loadingFromCoreData, .savingToDocuments,.loadingFromDocuments : return "Error de Persistencia"
+        case .savingToCoreData,.loadingFromCoreData, .savingToDocuments,.loadingFromDocuments, .loadingFromBundle : return "Error de Persistencia"
         case .noResults: return "Sin resultados"
         }
     }

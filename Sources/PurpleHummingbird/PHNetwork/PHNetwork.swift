@@ -8,8 +8,11 @@
 import UIKit
 
 
-public final class PHNetwork {
+public final class PHNetwork:DataLoadable {
     public static let shared = PHNetwork()
+    
+    let dataLoader: DataLoadable
+    
     
     //MARK: - Para Tests
     var urlProtocol: URLProtocol.Type?
@@ -23,49 +26,24 @@ public final class PHNetwork {
         }
     }
   
-    init(urlProtocol: URLProtocol.Type? = nil) {
+    init(urlProtocol: URLProtocol.Type? = nil, dataLoader: DataLoadable = PHURLSession()) {
         self.urlProtocol = urlProtocol
+        self.dataLoader = dataLoader
     }
     
     public func fetchJSON<JSON:Codable>(url: URL, type: JSON.Type) async throws -> JSON {
-         let (data, response) = try await session.data(from: url)
-            guard let res = response as? HTTPURLResponse else  { throw PHNetworkError.noResponse }
-            switch res.statusCode == 200 {
-            case true:
-                do {
-                    return try JSONDecoder().decode(JSON.self, from: data)
-                } catch let error {
-                    throw PHNetworkError.badJson(error)
-                }
-            case false: throw PHNetworkError.status(res.statusCode)
-            }
+        do {
+            return try  await dataLoader.fetchJSON(url: url, type: type)
+        } catch {
+            throw PHNetworkError.general
+        }
     }
     
     public func fetchImage(baseURL:URL, path: String) async throws -> UIImage {
         do {
-            let (data, _) = try await session.data(from: baseURL.appending(path:path))
-            guard let image = UIImage(data: data) else { throw PHNetworkError.badImage }
-            return image
+            return try await dataLoader.fetchImage(baseURL: baseURL, path: path)
         } catch {
-            throw PHNetworkError.badImage
+            throw PHNetworkError.general
         }
     }
-    
-    public func fetchValue<T:Decodable>(url: URL, type: T.Type) async throws -> T? {
-        let (data,response) = try await session.data(from: url)
-        guard let res = response as? HTTPURLResponse else  { throw PHNetworkError.noResponse }
-        switch res.statusCode == 200 {
-        case true: let value = try? JSONDecoder().decode(type, from: data)
-            return value
-        case false: throw PHNetworkError.noResults
-        }
-}
-    
-    
-}
-
-
-extension PHNetwork {
- 
-  
 }

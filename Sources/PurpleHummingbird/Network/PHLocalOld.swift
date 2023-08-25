@@ -7,7 +7,7 @@
 
 import Foundation
 
-public final class PHLocal {
+public final class PHLocalOld {
     
     static let shared = PHLocal()
     
