@@ -37,6 +37,7 @@ public final class PHNetwork:DataLoadable {
         self.dataLoadable = dataLoadable
     }
     
+    
     public func fetchJSON<JSON:Codable>(url: URL, type: JSON.Type) async throws -> JSON {
         do {
             return try  await dataLoader.fetchJSON(url: url, type: type)
@@ -55,6 +56,6 @@ public final class PHNetwork:DataLoadable {
 }
 
 extension PHNetwork {
-    static let testingMode = PHNetwork(dataLoadable: PHLocal.self)
+    public static let testingMode = PHNetwork(dataLoadable: PHLocal.self)
     
 }
