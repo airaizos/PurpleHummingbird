@@ -53,3 +53,8 @@ public final class PHNetwork:DataLoadable {
         }
     }
 }
+
+extension PHNetwork {
+    static let testingMode = PHNetwork(dataLoadable: PHLocal.self)
+    
+}
