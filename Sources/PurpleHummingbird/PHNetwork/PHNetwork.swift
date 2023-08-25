@@ -11,9 +11,7 @@ import UIKit
 public final class PHNetwork:DataLoadable {
     public static let shared = PHNetwork()
     
-    let dataLoader: DataLoadable
-    
-    
+    let dataLoadable: DataLoadable.Type?
     //MARK: - Para Tests
     var urlProtocol: URLProtocol.Type?
     var session: URLSession {
@@ -25,10 +23,18 @@ public final class PHNetwork:DataLoadable {
             return URLSession.shared
         }
     }
+    
+    var dataLoader:DataLoadable {
+        if (dataLoadable != nil) {
+            return PHURLSession(urlProtocol: urlProtocol)
+        } else {
+            return PHLocal()
+        }
+    }
   
-    init(urlProtocol: URLProtocol.Type? = nil, dataLoader: DataLoadable = PHURLSession()) {
+    init(urlProtocol: URLProtocol.Type? = nil, dataLoadable: DataLoadable.Type? = nil) {
         self.urlProtocol = urlProtocol
-        self.dataLoader = dataLoader
+        self.dataLoadable = dataLoadable
     }
     
     public func fetchJSON<JSON:Codable>(url: URL, type: JSON.Type) async throws -> JSON {

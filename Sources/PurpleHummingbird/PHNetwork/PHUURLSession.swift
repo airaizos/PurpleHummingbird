@@ -9,7 +9,7 @@ import UIKit
 
 public final class PHURLSession: DataLoadable {
     
-    static let shared = PHURLSession()
+   // static let shared = PHURLSession()
     //MARK: - Para Tests
     var urlProtocol: URLProtocol.Type?
     var session: URLSession {
