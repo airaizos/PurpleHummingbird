@@ -9,9 +9,9 @@ import UIKit
 
 
 public final class PHNetwork:DataLoadable {
-    public static let shared = PHNetwork()
+
     
-    let dataLoadable: DataLoadable.Type?
+    let loader: Bool
     //MARK: - Para Tests
     var urlProtocol: URLProtocol.Type?
     var session: URLSession {
@@ -25,16 +25,16 @@ public final class PHNetwork:DataLoadable {
     }
     
     var dataLoader:DataLoadable {
-        if (dataLoadable != nil) {
+        if loader {
             return PHURLSession(urlProtocol: urlProtocol)
         } else {
             return PHLocal()
         }
     }
   
-    init(urlProtocol: URLProtocol.Type? = nil, dataLoadable: DataLoadable.Type? = nil) {
+    public init(urlProtocol: URLProtocol.Type? = nil, loader: Bool = true) {
         self.urlProtocol = urlProtocol
-        self.dataLoadable = dataLoadable
+        self.loader = loader
     }
     
     
@@ -55,7 +55,3 @@ public final class PHNetwork:DataLoadable {
     }
 }
 
-extension PHNetwork {
-    public static let testingMode = PHNetwork(dataLoadable: PHLocal.self)
-    
-}
