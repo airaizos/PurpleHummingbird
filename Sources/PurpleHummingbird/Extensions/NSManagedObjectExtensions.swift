@@ -11,7 +11,7 @@ import CoreData
 import Foundation
 import CoreData
 
-extension NSManagedObject {
+public extension NSManagedObject {
     static func queryData<T:CVarArg>(field:String, filter:T, type:DataType = .string, context:NSManagedObjectContext) -> Self? {
         guard let entityName = entity().name else { return nil }
         let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
@@ -27,7 +27,7 @@ extension NSManagedObject {
     }
 }
 
-enum DataType:String {
+public enum DataType:String {
     case string = "%@"
     case number = "%i"
     case decimal = "%d"
