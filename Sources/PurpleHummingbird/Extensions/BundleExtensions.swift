@@ -8,7 +8,7 @@
 import Foundation
 
 public extension Bundle {
-    func decode<T: Decodable>(_ type: T.Type, from file: String) throws -> T {
+    func decode<T: Decodable>(_ type: T.Type, from file: String, dateFormat:String? = nil) throws -> T {
         guard let url = self.url(forResource: file, withExtension: nil) else {
             throw JsonError.location
         }
@@ -18,7 +18,14 @@ public extension Bundle {
         }
 
         let decoder = JSONDecoder()
-
+        if (dateFormat != nil) {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = dateFormat
+            
+            decoder.dateDecodingStrategy = .formatted(dateFormatter)
+        }
+        
+        
         guard let loaded = try? decoder.decode(T.self, from: data) else {
             throw JsonError.decode
         }
