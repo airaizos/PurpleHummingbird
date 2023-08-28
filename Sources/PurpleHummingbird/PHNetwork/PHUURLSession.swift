@@ -60,6 +60,19 @@ public final class PHURLSession: DataLoadable {
         }
     }
     
-    
+    public func fetchJSON<JSON:Codable>(url: URL, parameter:String? = nil, type: JSON.Type) async throws -> JSON {
+        let urlP = url.appending(path: parameter ?? "")
+        let (data, response) = try await session.data(from: urlP)
+        guard let res = response as? HTTPURLResponse else  { throw PHNetworkError.noResponse }
+        switch res.statusCode == 200 {
+        case true:
+            do {
+                return try JSONDecoder().decode(JSON.self, from: data)
+            } catch let error {
+                throw PHNetworkError.badJson(error)
+            }
+        case false: throw PHNetworkError.status(res.statusCode)
+        }
+    }
 }
 

@@ -28,4 +28,13 @@ public final class PHLocal: DataLoadable {
             throw PHNetworkError.loadingFromBundle
         }
     }
+    
+    public func fetchJSON<JSON:Codable>(url: URL, parameter: String? = nil, type: JSON.Type) async throws -> JSON {
+        do {
+            let data = try Data(contentsOf: url)
+            return try JSONDecoder().decode(type, from: data)
+        } catch {
+            throw PHNetworkError.loadingFromBundle
+        }
+    }
 }

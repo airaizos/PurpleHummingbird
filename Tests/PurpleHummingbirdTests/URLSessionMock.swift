@@ -40,7 +40,7 @@ final class URLSessionMock: URLProtocol {
             let error = NSError(domain: NSURLErrorDomain, code: NSURLErrorTimedOut, userInfo: nil)
             self.client?.urlProtocol(self, didFailWithError: error)
             return
-            
+        case "1": data = try? Data(contentsOf: urlCategories)
 
         default: client?.urlProtocol(self, didFailWithError: PHNetworkError.badData)
             client?.urlProtocolDidFinishLoading(self)

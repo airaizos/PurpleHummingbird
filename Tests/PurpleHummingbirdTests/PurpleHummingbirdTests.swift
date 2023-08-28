@@ -38,6 +38,16 @@ final class PurpleHummingbirdTests: XCTestCase {
         
         XCTAssertNotNil(image)
     }
+    
+    func testFetchJSONParameter() async throws {
+        let testURL = URL(string: "http://127.0.0.1:8080/")!
+        
+        let categories = try await network.fetchJSON(url: testURL, parameter: "1", type: [Category].self)
+        
+        XCTAssertEqual(categories.count, 8)
+        
+    }
+    
 }
 
 

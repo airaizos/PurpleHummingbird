@@ -11,6 +11,8 @@ import UIKit
 public final class PHNetwork:DataLoadable {
 
     
+
+    
     let loader: Bool
     //MARK: - Para Tests
     var urlProtocol: URLProtocol.Type?
@@ -40,7 +42,7 @@ public final class PHNetwork:DataLoadable {
     
     public func fetchJSON<JSON:Codable>(url: URL, type: JSON.Type) async throws -> JSON {
         do {
-            return try  await dataLoader.fetchJSON(url: url, type: type)
+            return try await dataLoader.fetchJSON(url: url, type: type)
         } catch {
             throw PHNetworkError.general
         }
@@ -49,6 +51,15 @@ public final class PHNetwork:DataLoadable {
     public func fetchImage(baseURL:URL, path: String) async throws -> UIImage {
         do {
             return try await dataLoader.fetchImage(baseURL: baseURL, path: path)
+        } catch {
+            throw PHNetworkError.general
+        }
+    }
+
+    public func fetchJSON<JSON:Codable>(url: URL, parameter: String?, type: JSON.Type) async throws -> JSON {
+        do {
+            
+            return try await dataLoader.fetchJSON(url: url, parameter: parameter, type: type)
         } catch {
             throw PHNetworkError.general
         }
