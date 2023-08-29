@@ -25,6 +25,13 @@ public extension NSManagedObject {
         fetch.predicate = NSPredicate(format: "%K = \(type.rawValue)", field, filter)
         return (try? context.count(for: fetch)) ?? 0 > 0
     }
+    
+    static func lastValue(field: String,context: NSManagedObjectContext) -> Self? {
+        guard let entityName = entity().name else { return nil }
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+        request.sortDescriptors = [NSSortDescriptor(key: "\(field)", ascending: false)]
+        return try? context.fetch(request).first as? Self
+    }
 }
 
 public enum DataType:String {
