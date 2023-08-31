@@ -12,14 +12,14 @@ import Foundation
 import CoreData
 
 public extension NSManagedObject {
-    static func queryData<T:CVarArg>(field:String, filter:T, type:DataType = .string, context:NSManagedObjectContext) -> Self? {
+    static func queryData<T:CVarArg>(field:String, filter:T, type:DataType, context:NSManagedObjectContext) -> Self? {
         guard let entityName = entity().name else { return nil }
         let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         fetch.predicate = NSPredicate(format: "%K = \(type.rawValue)", field, filter)
         return try? context.fetch(fetch).first as? Self
     }
     
-    static func dataExists<T:CVarArg>(field:String, filter:T, type:DataType = .string, context:NSManagedObjectContext) -> Bool {
+    static func dataExists<T:CVarArg>(field:String, filter:T, type:DataType, context:NSManagedObjectContext) -> Bool {
         guard let entityName = entity().name else { return false }
         let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         fetch.predicate = NSPredicate(format: "%K = \(type.rawValue)", field, filter)

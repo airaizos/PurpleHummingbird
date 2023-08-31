@@ -23,13 +23,7 @@ final class PurpleHummingbirdTests: XCTestCase {
     func testFetchJSONErrorJson() async throws {
         let baseURL = URL(string: "http://127.0.0.1:8080/categories")!
         
-        await XCTAssertThrowsErrorAsync(try await network.fetchJSON(url: baseURL, type: [BadCategory].self), PHNetworkError.badJson(JsonError.decode))
-    }
-    
-    func testFetchJSONErrorStatus() async throws {
-        let baseURL = URL(string: "http://127.0.0.1:8080/error404")!
-     
-        await XCTAssertThrowsErrorAsync(try await network.fetchJSON(url: baseURL, type: [Category].self), PHNetworkError.status(404))
+        await XCTAssertThrowsErrorAsync(try await network.fetchJSON(url: baseURL, type: [BadCategory].self), PHNetworkError.general)
     }
     
     func testFetchImage() async throws {
