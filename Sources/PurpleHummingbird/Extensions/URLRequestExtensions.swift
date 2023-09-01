@@ -71,12 +71,4 @@ public extension URLRequest {
         return request
     }
     
-    public enum HTTPMethods:String {
-        case get = "GET"
-        case post = "POST"
-        case put = "PUT"
-        case patch = "PATCH"
-        case delete = "DELETE"
-    }
-
 }
