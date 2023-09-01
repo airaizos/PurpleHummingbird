@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-extension NSManagedObjectContext {
+public extension NSManagedObjectContext {
     
     func ifChangesSave() throws {
         if self.hasChanges {
