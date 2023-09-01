@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension URLRequest {
+public extension URLRequest {
     
     static func get(url:URL, token:String? = nil) -> URLRequest {
         var request = URLRequest(url: url)
