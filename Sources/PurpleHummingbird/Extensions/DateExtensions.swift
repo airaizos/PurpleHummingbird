@@ -31,14 +31,20 @@ public extension Date {
            }
     }()
     
-  
-    
     static let tomorrow: Date = {
         let df = DateFormatter()
         if let next = Calendar.current.date(byAdding: .day,value: 1, to: Date.now) {
             return next
         }
         return Date()
+    }()
+    
+    static let firstDayCurrentMonth: Date? = {
+        var calendario = Calendar.current
+        var componentes = calendario.dateComponents([.year, .month], from: Date())
+        componentes.day = 1
+        componentes.timeZone = .current
+        return calendario.date(from: componentes)
     }()
     
 }
