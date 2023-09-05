@@ -32,6 +32,17 @@ public extension NSManagedObject {
         request.sortDescriptors = [NSSortDescriptor(key: "\(field)", ascending: false)]
         return try? context.fetch(request).first as? Self
     }
+    
+    static func sortedValuesBy(field:String, ascending: Bool, context: NSManagedObjectContext) -> [NSFetchRequestResult] {
+        guard let entityName = entity().name else { return [] }
+        let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+        fetch.sortDescriptors = [NSSortDescriptor(key: "\(field)", ascending: ascending)]
+        do {
+           return  try context.fetch(fetch)
+        } catch {
+            return []
+        }
+    }
 }
 
 public enum DataType:String {
