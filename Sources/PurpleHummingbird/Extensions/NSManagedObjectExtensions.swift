@@ -43,6 +43,17 @@ public extension NSManagedObject {
             return []
         }
     }
+    
+    static func allValues(context: NSManagedObjectContext) -> [NSFetchRequestResult] {
+        guard let entityName = entity().name else { return [] }
+        let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+
+        do {
+           return  try context.fetch(fetch)
+        } catch {
+            return []
+        }
+    }
 }
 
 public enum DataType:String {
