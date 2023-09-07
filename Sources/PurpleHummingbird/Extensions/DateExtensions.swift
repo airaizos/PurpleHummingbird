@@ -39,6 +39,16 @@ public extension Date {
         return Date()
     }()
     
+    static let januaryFirst2020: Date? = {
+        var calendario = Calendar.current
+        var componentes = calendario.dateComponents([.year, .month], from: Date())
+        componentes.day = 1
+        componentes.month = 1
+        componentes.year = 2020
+        componentes.timeZone = .current
+        return calendario.date(from: componentes)
+    }()
+    
     static let firstDayCurrentMonth: Date? = {
         var calendario = Calendar.current
         var componentes = calendario.dateComponents([.year, .month], from: Date())
