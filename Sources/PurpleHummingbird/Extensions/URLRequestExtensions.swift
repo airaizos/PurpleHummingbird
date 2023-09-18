@@ -12,7 +12,6 @@ public extension URLRequest {
     static func get(url:URL, token:String? = nil) -> URLRequest {
         var request = URLRequest(url: url)
         
-   
         request.timeoutInterval = 30
         request.httpMethod = HTTPMethods.get.rawValue
         request.setValue("application/json", forHTTPHeaderField: "Accept")
@@ -40,7 +39,6 @@ public extension URLRequest {
         return request
     }
     
-    //??
     static func put<JSON:Codable>(url:URL,data:JSON, method:HTTPMethods = .put) -> URLRequest {
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
@@ -70,5 +68,4 @@ public extension URLRequest {
         request.httpBody = try? JSONEncoder().encode(data)
         return request
     }
-    
 }

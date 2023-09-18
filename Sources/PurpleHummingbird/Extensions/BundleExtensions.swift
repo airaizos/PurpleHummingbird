@@ -25,7 +25,6 @@ public extension Bundle {
             decoder.dateDecodingStrategy = .formatted(dateFormatter)
         }
         
-        
         guard let loaded = try? decoder.decode(T.self, from: data) else {
             throw JsonError.decode
         }

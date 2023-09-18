@@ -15,5 +15,4 @@ public extension NSManagedObjectContext {
             try self.save()
         }
     }
-    
 }

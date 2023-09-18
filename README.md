@@ -1,6 +1,6 @@
-# PurpleHummingbird Utilities Package
+# PurpleHummingbird
 
-El PurpleHummingbird es una biblioteca que proporciona una serie de utilidades para facilitar el desarrollo de aplicaciones en Swift. Este paquete abarca tres áreas principales: Red, Seguridad y Extensiones de Protocolos.
+PurpleHummingbird es una biblioteca que proporciona una serie de métodos y extensiones para facilitar el desarrollo de aplicaciones en Swift. Abarca peticiones de red, extensiones de tipos de datos.
 
 ## Red
 
@@ -12,17 +12,8 @@ El módulo de Red proporciona herramientas para manejar operaciones de red de ma
 
 - `NetworkError`: Enumeración de errores comunes relacionados con operaciones de red, como errores de conexión, códigos de estado HTTP inesperados, etc.
 
-## Seguridad
 
-El módulo de Seguridad incluye herramientas para proteger los datos y las comunicaciones de la aplicación:
-
-- `EncryptionManager`: Ofrece métodos para cifrar y descifrar datos utilizando algoritmos de cifrado seguros. Permite proteger datos sensibles almacenados localmente.
-
-- `KeyAgreementManager`: Implementa algoritmos de acuerdo de llaves para establecer comunicaciones seguras entre diferentes dispositivos o componentes de la aplicación.
-
-- `DataObfuscation`: Proporciona funciones para ofuscar datos sensibles antes de almacenarlos en la aplicación, aumentando la seguridad frente a posibles ataques.
-
-## Extensiones de Protocolos
+## Extensiones
 
 El módulo de Extensiones de Protocolos amplía las capacidades de tipos comunes de Swift:
 
