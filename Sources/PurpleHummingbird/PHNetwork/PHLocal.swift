@@ -5,7 +5,7 @@
 //  Created by Adrian Iraizos Mendoza on 25/8/23.
 //
 
-import SwiftUI
+import UIKit
 public final class PHLocal: DataLoadable {
     
     
